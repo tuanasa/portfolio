@@ -1,0 +1,9 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx live-server --port=3000 --open=index.html",
+    "build": "npx gh-pages -d . -b deploy --dotfiles"
+  }
+}

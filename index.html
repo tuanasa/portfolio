@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #label {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: bold;
+      font-size: clamp(2rem, 6vw, 6rem);
+      color: #ff0000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="label">COMING SOON</div>
+
+  <script>
+    const base = 'COMING SOON';
+    let dots = 0;
+    const el = document.getElementById('label');
+
+    setInterval(() => {
+      el.textContent = base + '.'.repeat(dots);
+      dots = (dots + 1) % 4;
+    }, 1000);
+  </script>
+</body>
+</html>
