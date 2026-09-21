@@ -3,45 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coming Soon</title>
+  <title>Tuana Sandikci</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: #000;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      color: #f2f2f2;
+      font-family: Helvetica, Arial, sans-serif;
+      padding: 0;
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
 
-    #label {
+    body.visible {
+      opacity: 1;
+    }
+
+    body.visible .image-strip video {
+      animation: videoblurin 6s ease forwards;
+    }
+
+    @keyframes videoblurin {
+      0%   { filter: blur(30px); }
+      100% { filter: blur(0px); }
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 2rem 2rem;
+      mix-blend-mode: difference;
+    }
+
+    .bottom-nav a {
       font-family: Helvetica, Arial, sans-serif;
-      font-weight: bold;
-      font-size: clamp(2rem, 6vw, 6rem);
-      color: #ff0000;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .bottom-nav a:hover { opacity: 1; }
+
+    .image-strip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+
+    .image-strip video {
+      width: calc(90vw - 300px);
+      max-width: 100%;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .image-strip video { width: 100%; }
+    }
+
+    .image-strip video {
+      cursor: none;
+    }
+
+    .video-cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .video-cursor svg {
+      width: 36px;
+      height: 36px;
+      fill: #fff;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
     }
   </style>
 </head>
 <body>
-  <div id="label">COMING SOON</div>
+
+  <nav class="bottom-nav">
+    <a href="about.html">Tuanasandikci</a>
+    <a href="selectedwork.html">Selectedwork</a>
+    <a href="photoarchive.html">Photoarchive</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <section id="work">
+    <div class="image-strip">
+      <video src="videos/yunggunton kleine datei.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </section>
+
+
+  <div class="video-cursor" id="videoCursor">
+    <svg id="cursorIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <!-- pause icon by default (video is playing) -->
+      <rect x="5" y="3" width="4" height="18" rx="1"/>
+      <rect x="15" y="3" width="4" height="18" rx="1"/>
+    </svg>
+  </div>
 
   <script>
-    const base = 'COMING SOON';
-    let dots = 0;
-    const el = document.getElementById('label');
+    const video = document.querySelector('.image-strip video');
+    const cursor = document.getElementById('videoCursor');
+    const cursorIcon = document.getElementById('cursorIcon');
 
-    setInterval(() => {
-      el.textContent = base + '.'.repeat(dots);
-      dots = (dots + 1) % 4;
-    }, 1000);
+    const pauseIcon = `<rect x="5" y="3" width="4" height="18" rx="1"/><rect x="15" y="3" width="4" height="18" rx="1"/>`;
+    const playIcon = `<polygon points="5,3 19,12 5,21"/>`;
+
+    function updateIcon() {
+      cursorIcon.innerHTML = video.paused ? playIcon : pauseIcon;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    video.addEventListener('mouseenter', () => {
+      cursor.style.display = 'block';
+      updateIcon();
+    });
+
+    video.addEventListener('mouseleave', () => {
+      cursor.style.display = 'none';
+    });
+
+    video.addEventListener('click', () => {
+      video.paused ? video.play() : video.pause();
+      updateIcon();
+    });
+
+    // page transitions
+    window.addEventListener('load', () => {
+      setTimeout(() => document.body.classList.add('visible'), 50);
+    });
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
+      e.preventDefault();
+      document.body.classList.remove('visible');
+      setTimeout(() => { window.location.href = href; }, 600);
+    });
+
+    // live-reload: polls the server and refreshes when the file changes
+    (() => {
+      let lastModified = null;
+      setInterval(async () => {
+        try {
+          const res = await fetch(location.href, { method: 'HEAD', cache: 'no-store' });
+          const modified = res.headers.get('last-modified');
+          if (lastModified && modified !== lastModified) location.reload();
+          lastModified = modified;
+        } catch (e) {}
+      }, 1000);
+    })();
   </script>
 </body>
 </html>

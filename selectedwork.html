@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Work — Tuana Sandikci</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #f2f2f2;
+      font-family: Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      filter: blur(20px);
+      opacity: 0;
+      transition: filter 0.6s ease, opacity 0.6s ease;
+    }
+
+    body.visible {
+      filter: blur(0px);
+      opacity: 1;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 2rem 2rem;
+      mix-blend-mode: difference;
+    }
+
+    .bottom-nav a {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .bottom-nav a:hover { opacity: 1; }
+    .bottom-nav a.active { opacity: 1; }
+
+    .project-list {
+      position: fixed;
+      top: 6rem;
+      left: 5rem;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      mix-blend-mode: difference;
+    }
+
+    .project-item {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0.4;
+      cursor: default;
+      transition: opacity 0.2s;
+      user-select: none;
+    }
+
+    .project-item:hover { opacity: 1; }
+
+    .preview {
+      position: fixed;
+      top: 25%;
+      left: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      z-index: 5;
+    }
+
+    .preview img {
+      width: 320px;
+      display: block;
+      filter: grayscale(100%);
+    }
+
+    .preview.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="bottom-nav">
+    <a href="index.html">Tuanasandikci</a>
+    <a href="selectedwork.html" class="active">Selectedwork</a>
+    <a href="photoarchive.html">Photoarchive</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="project-list">
+    <span class="project-item" data-preview="bruderherz">bruderherz.shortfilm (2026)</span>
+    <span class="project-item">ignorance&amp;freedom.dancemusicvideo (2026)</span>
+    <span class="project-item">freyja.editorial (2026)</span>
+    <span class="project-item">pferdemädchen.editorial (2026)</span>
+    <span class="project-item">pia&amp;mike.wedding (2026)</span>
+    <span class="project-item" data-preview="schatzsucher" data-href="schatzsucher.html">schatzsucher.shortfilm (2023)</span>
+  </div>
+
+  <div class="preview" id="preview-bruderherz">
+    <img src="videos/bruderherz_still_5_1.7.1.tif" alt="Bruderherz">
+  </div>
+
+  <div class="preview" id="preview-schatzsucher">
+    <video src="videos/DieSchatzsucherVincentBrabandt3.mp4" muted loop playsinline style="width:320px; filter:grayscale(100%);"></video>
+  </div>
+
+  <script>
+    // page transitions
+    window.addEventListener('load', () => {
+      setTimeout(() => document.body.classList.add('visible'), 50);
+    });
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
+      e.preventDefault();
+      document.body.classList.remove('visible');
+      setTimeout(() => { window.location.href = href; }, 600);
+    });
+
+    // preview on hover
+    document.querySelectorAll('.project-item').forEach(item => {
+      const key = item.dataset.preview;
+      const preview = key ? document.getElementById('preview-' + key) : null;
+      const video = preview ? preview.querySelector('video') : null;
+
+      item.addEventListener('mouseenter', () => {
+        if (preview) preview.classList.add('visible');
+        if (video) video.play();
+      });
+      item.addEventListener('mouseleave', () => {
+        if (preview) preview.classList.remove('visible');
+        if (video) { video.pause(); video.currentTime = 0; }
+      });
+      item.addEventListener('click', () => {
+        const href = item.dataset.href;
+        if (!href) return;
+
+        const rect = item.getBoundingClientRect();
+        sessionStorage.setItem('titleTop', rect.top + 'px');
+        sessionStorage.setItem('titleLeft', rect.left + 'px');
+
+        // clone the title above the overlay so it stays visible
+        const clone = document.createElement('span');
+        clone.textContent = item.textContent;
+        clone.style.cssText = `
+          position: fixed;
+          top: ${rect.top}px;
+          left: ${rect.left}px;
+          font-size: 0.85rem;
+          font-weight: 400;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #fff;
+          mix-blend-mode: difference;
+          z-index: 9999;
+          pointer-events: none;
+        `;
+        document.body.appendChild(clone);
+
+        // overlay fades in over everything else
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+          position: fixed; inset: 0; background: #000;
+          z-index: 500; opacity: 0;
+          transition: opacity 0.6s ease; pointer-events: none;
+        `;
+        document.body.appendChild(overlay);
+        requestAnimationFrame(() => { overlay.style.opacity = '1'; });
+
+        setTimeout(() => { window.location.href = href; }, 600);
+      });
+      if (item.dataset.href) item.style.cursor = 'pointer';
+    });
+  </script>
+
+</body>
+</html>
