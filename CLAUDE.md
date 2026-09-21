@@ -7,6 +7,7 @@ Static HTML/CSS/JS portfolio, deployed to GitHub Pages via `npm run build` (`gh-
 - After each bigger change (a completed feature/page, a batch of edits, a meaningful fix — not every tiny tweak), commit and push to `main` automatically without waiting to be asked.
 - Stage new files too, as long as they aren't too big — skip anything over ~20MB (raw video exports, uncompressed masters, etc.) and flag it to the user instead of committing it. Compressed/exported media for the site (see video export notes below) is fine to add.
 - GitHub hard-rejects any single file over 100MB, so oversized files must be compressed or excluded, never force-pushed through.
+- Never run `npm run build` (the `gh-pages` deploy) on your own. Committing/pushing to `main` is automatic per above, but deploying to the live site only happens when the user explicitly asks for it.
 
 ## Video assets
 
