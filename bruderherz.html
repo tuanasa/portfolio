@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bruderherz — Tuana Sandikci</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #f2f2f2;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    #page-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 500;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+    }
+
+    #page-overlay.hidden {
+      opacity: 0;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 2rem 2rem;
+      mix-blend-mode: difference;
+    }
+
+    .bottom-nav a {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .bottom-nav a:hover { opacity: 1; }
+    .bottom-nav a.active { opacity: 1; }
+
+    .back {
+      position: fixed;
+      top: 1.5rem;
+      left: 2.75rem;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f2f2f2;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+      z-index: 101;
+    }
+
+    .back:hover { opacity: 1; }
+
+    .project-title {
+      position: fixed;
+      top: 2.5rem;
+      left: 2rem;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      mix-blend-mode: difference;
+      z-index: 9999;
+    }
+
+    .hero-credits {
+      position: fixed;
+      top: 6.5rem;
+      right: 3.5rem;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 1;
+      text-align: right;
+      line-height: 1.8;
+      mix-blend-mode: difference;
+      z-index: 101;
+    }
+
+    .lookbook {
+      padding: 2rem;
+      padding-top: 5rem;
+      padding-bottom: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .lookbook video {
+      width: 100%;
+      display: block;
+    }
+
+    .lookbook .wide {
+      grid-column: span 2;
+    }
+    .credits {
+      columns: 2;
+      column-gap: 3rem;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 2rem 8rem;
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.7;
+      color: #bdbdbd;
+    }
+
+    .credits div {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      column-gap: 1rem;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
+    }
+
+    .credits dt { opacity: 0.4; }
+    .credits dd { margin: 0; }
+
+    @media (max-width: 600px) {
+      .credits { columns: 1; }
+      .credits div { grid-template-columns: 1fr; margin-bottom: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="bottom-nav">
+    <a href="index.html">Tuanasandikci</a>
+    <a href="selectedwork.html" class="active">Selectedwork</a>
+    <a href="photoarchive.html">Photoarchive</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div id="page-overlay"></div>
+
+  <a class="back" href="selectedwork.html">Back</a>
+
+  <div class="project-title">bruderherz.shortfilm (2026)</div>
+
+  <div class="hero-credits">
+    DoP. Tuana Sandikci
+  </div>
+
+  <div class="lookbook">
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_1.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_2.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_3.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_4.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_5.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div>
+      <video src="videos/BRUDERHERZ/BRUDERHERZ_PORTFOLIO_6.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+
+
+  <script>
+    const overlay = document.getElementById('page-overlay');
+
+    window.addEventListener('load', () => {
+      const savedTop = sessionStorage.getItem('titleTop');
+      const savedLeft = sessionStorage.getItem('titleLeft');
+      if (savedTop && savedLeft) {
+        const title = document.querySelector('.project-title');
+        title.style.top = savedTop;
+        title.style.left = savedLeft;
+      }
+      setTimeout(() => overlay.classList.add('hidden'), 50);
+    });
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
+      e.preventDefault();
+      overlay.classList.remove('hidden');
+      setTimeout(() => { window.location.href = href; }, 600);
+    });
+  </script>
+
+</body>
+</html>
