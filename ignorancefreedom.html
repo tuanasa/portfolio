@@ -119,25 +119,31 @@
       grid-column: span 2;
     }
     .credits {
-      display: grid;
-      grid-template-columns: max-content 1fr;
-      column-gap: 2rem;
-      row-gap: 0.4rem;
+      columns: 2;
+      column-gap: 3rem;
       padding: 0 2rem 8rem;
-      font-size: 0.75rem;
+      font-size: 0.55rem;
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      line-height: 1.8;
+      line-height: 1.7;
       color: #fff;
+    }
+
+    .credits div {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      column-gap: 1rem;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
     }
 
     .credits dt { opacity: 0.4; }
     .credits dd { margin: 0; }
 
     @media (max-width: 600px) {
-      .credits { grid-template-columns: 1fr; row-gap: 0; }
-      .credits dd { margin-bottom: 0.8rem; }
+      .credits { columns: 1; }
+      .credits div { grid-template-columns: 1fr; margin-bottom: 0.6rem; }
     }
   </style>
 </head>
@@ -183,27 +189,27 @@
   </div>
 
   <dl class="credits">
-    <dt>Choreography &amp; Performance</dt><dd>Natasha Patterson &amp; Sabine Van Rensburgs</dd>
-    <dt>Movement Director</dt><dd>Brin Schoellkopf</dd>
-    <dt>Music</dt><dd>Sina Bresching &amp; Silah Goebel</dd>
-    <dt>Creative Director</dt><dd>Sina Bresching</dd>
-    <dt>Director of Film</dt><dd>Franziska Marie Hildebrand</dd>
-    <dt>Assistant Director</dt><dd>Josefine Römer</dd>
-    <dt>Director of Photography</dt><dd>Tuana Sandikci</dd>
-    <dt>First Assistant Camera</dt><dd>Andrew Agbottah</dd>
-    <dt>Second Assistant Camera</dt><dd>Emma Ackermann</dd>
-    <dt>Gaffer</dt><dd>Christoph Flegel</dd>
-    <dt>Producer</dt><dd>Nina Stiritz<br>Sina Bresching<br>Franziska Marie Hildebrand</dd>
-    <dt>Producerassistant</dt><dd>Silah Goebel</dd>
-    <dt>Hair Artist/Stylist</dt><dd>Koji Takahashi</dd>
-    <dt>Costumedesign</dt><dd>Sina Bresching</dd>
-    <dt>Make Up Artist</dt><dd>Oskar Mauricio/VeNuX</dd>
-    <dt>Make Up Artist Assistant</dt><dd>Anna Tetruashvili</dd>
-    <dt>Editor</dt><dd>Franziska Marie Hildebrand</dd>
-    <dt>Colour Grading</dt><dd>Dominik Berberich</dd>
-    <dt>Mix/Master</dt><dd>Oscar Zöllner</dd>
-    <dt>Photographer</dt><dd>Jany Zindel</dd>
-    <dt>Big Thanks to</dt><dd>Mausi (Location)</dd>
+    <div><dt>Choreography &amp; Performance</dt><dd>Natasha Patterson &amp; Sabine Van Rensburgs</dd></div>
+    <div><dt>Movement Director</dt><dd>Brin Schoellkopf</dd></div>
+    <div><dt>Music</dt><dd>Sina Bresching &amp; Silah Goebel</dd></div>
+    <div><dt>Creative Director</dt><dd>Sina Bresching</dd></div>
+    <div><dt>Director of Film</dt><dd>Franziska Marie Hildebrand</dd></div>
+    <div><dt>Assistant Director</dt><dd>Josefine Römer</dd></div>
+    <div><dt>Director of Photography</dt><dd>Tuana Sandikci</dd></div>
+    <div><dt>First Assistant Camera</dt><dd>Andrew Agbottah</dd></div>
+    <div><dt>Second Assistant Camera</dt><dd>Emma Ackermann</dd></div>
+    <div><dt>Gaffer</dt><dd>Christoph Flegel</dd></div>
+    <div><dt>Producer</dt><dd>Nina Stiritz<br>Sina Bresching<br>Franziska Marie Hildebrand</dd></div>
+    <div><dt>Producerassistant</dt><dd>Silah Goebel</dd></div>
+    <div><dt>Hair Artist/Stylist</dt><dd>Koji Takahashi</dd></div>
+    <div><dt>Costumedesign</dt><dd>Sina Bresching</dd></div>
+    <div><dt>Make Up Artist</dt><dd>Oskar Mauricio/VeNuX</dd></div>
+    <div><dt>Make Up Artist Assistant</dt><dd>Anna Tetruashvili</dd></div>
+    <div><dt>Editor</dt><dd>Franziska Marie Hildebrand</dd></div>
+    <div><dt>Colour Grading</dt><dd>Dominik Berberich</dd></div>
+    <div><dt>Mix/Master</dt><dd>Oscar Zöllner</dd></div>
+    <div><dt>Photographer</dt><dd>Jany Zindel</dd></div>
+    <div><dt>Big Thanks to</dt><dd>Mausi (Location)</dd></div>
   </dl>
 
   <script>
