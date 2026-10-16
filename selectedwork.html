@@ -117,7 +117,7 @@
 
 
   <div class="preview" id="preview-ignorancefreedom">
-    <video src="videos/IGNORANCE%20%26%20FREEDOM/BER26_IGNORANCE_FREEDOM_6.mp4" muted loop playsinline style="width:320px;"></video>
+    <video src="videos/IGNORANCE%20%26%20FREEDOM/BER26_IGNORANCE_FREEDOM_6.mp4" data-start="middle" muted loop playsinline style="width:320px;"></video>
   </div>
   <div class="preview" id="preview-schatzsucher">
     <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucherVincentBrabandt3.mp4" muted loop playsinline style="width:320px; filter:grayscale(100%);"></video>
@@ -140,18 +140,26 @@
     });
 
     // preview on hover
+    document.querySelectorAll('video[data-start="middle"]').forEach(v => {
+      v.addEventListener('loadedmetadata', () => { v.currentTime = v.duration / 2; }, { once: true });
+    });
+
     document.querySelectorAll('.project-item').forEach(item => {
       const key = item.dataset.preview;
       const preview = key ? document.getElementById('preview-' + key) : null;
       const video = preview ? preview.querySelector('video') : null;
+      const startTime = () => video.dataset.start === 'middle' ? video.duration / 2 : 0;
 
       item.addEventListener('mouseenter', () => {
         if (preview) preview.classList.add('visible');
-        if (video) video.play();
+        if (video) {
+          if (video.dataset.start && video.readyState > 0) video.currentTime = startTime();
+          video.play();
+        }
       });
       item.addEventListener('mouseleave', () => {
         if (preview) preview.classList.remove('visible');
-        if (video) { video.pause(); video.currentTime = 0; }
+        if (video) { video.pause(); video.currentTime = startTime(); }
       });
       item.addEventListener('click', () => {
         const href = item.dataset.href;
