@@ -104,7 +104,7 @@
     .lookbook {
       padding: 2rem;
       padding-top: 5rem;
-      padding-bottom: 6rem;
+      padding-bottom: 3rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
@@ -118,6 +118,35 @@
 
     .lookbook .wide {
       grid-column: span 2;
+    }
+    .credits {
+      columns: 2;
+      column-gap: 3rem;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 2rem 8rem;
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.7;
+      color: #bdbdbd;
+    }
+
+    .credits div {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      column-gap: 1rem;
+      margin-bottom: 0.35rem;
+      break-inside: avoid;
+    }
+
+    .credits dt { opacity: 0.4; }
+    .credits dd { margin: 0; }
+
+    @media (max-width: 600px) {
+      .credits { columns: 1; }
+      .credits div { grid-template-columns: 1fr; margin-bottom: 0.6rem; }
     }
   </style>
 </head>
@@ -164,6 +193,15 @@
       <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucherVincentBrabandt7.mp4" autoplay muted loop playsinline></video>
     </div>
   </div>
+
+  <dl class="credits">
+    <div><dt>Cast</dt><dd>Jiri Dehmel<br>Helmut Mooshammer</dd></div>
+    <div><dt>Assistant Director</dt><dd>Americo Stagno</dd></div>
+    <div><dt>Assistant Camera</dt><dd>Franz Wiedemann</dd></div>
+    <div><dt>Gaffer</dt><dd>Louis Reimann</dd></div>
+    <div><dt>Sound</dt><dd>Karina Musab</dd></div>
+    <div><dt>Editor</dt><dd>Vincent Brabandt</dd></div>
+  </dl>
 
   <script>
     const overlay = document.getElementById('page-overlay');
