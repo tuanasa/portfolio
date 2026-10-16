@@ -149,6 +149,13 @@
       line-height: 1.5rem;
       opacity: 0.85;
     }
+    body.leaving .bottom-nav,
+    body.leaving .about-image,
+    body.leaving .about-text p {
+      opacity: 0;
+      filter: blur(12px);
+      transition: opacity 0.6s ease, filter 0.6s ease;
+    }
   </style>
 </head>
 <body>
@@ -185,6 +192,24 @@
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
       e.preventDefault();
+
+      // contact me: everything else fades, the link grows to the center and blurs out
+      if (link.classList.contains('contact-me')) {
+        const rect = link.getBoundingClientRect();
+        const dx = window.innerWidth / 2 - (rect.left + rect.width / 2);
+        const dy = window.innerHeight / 2 - (rect.top + rect.height / 2);
+        document.body.classList.add('leaving');
+        link.style.animation = 'none';
+        link.style.pointerEvents = 'none';
+        link.animate([
+          { transform: 'none', filter: 'blur(0px)', opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) scale(3)`, filter: 'blur(1px)', opacity: 1, offset: 0.55 },
+          { transform: `translate(${dx}px, ${dy}px) scale(5)`, filter: 'blur(24px)', opacity: 0 }
+        ], { duration: 1300, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' });
+        setTimeout(() => { window.location.href = href; }, 1300);
+        return;
+      }
+
       document.body.classList.remove('visible');
       setTimeout(() => { window.location.href = href; }, 600);
     });
