@@ -193,7 +193,7 @@
       if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
       e.preventDefault();
 
-      // contact me: everything else fades, the link grows to the center and blurs out
+      // contact me: everything else fades, the link slides to the center and blurs out
       if (link.classList.contains('contact-me')) {
         const rect = link.getBoundingClientRect();
         const dx = window.innerWidth / 2 - (rect.left + rect.width / 2);
@@ -203,8 +203,8 @@
         link.style.pointerEvents = 'none';
         link.animate([
           { transform: 'none', filter: 'blur(0px)', opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px) scale(2.5)`, filter: 'blur(8px)', opacity: 1, offset: 0.35 },
-          { transform: `translate(${dx}px, ${dy}px) scale(5)`, filter: 'blur(24px)', opacity: 0 }
+          { transform: `translate(${dx}px, ${dy}px)`, filter: 'blur(8px)', opacity: 1, offset: 0.35 },
+          { transform: `translate(${dx}px, ${dy}px)`, filter: 'blur(24px)', opacity: 0 }
         ], { duration: 2200, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' });
         setTimeout(() => { window.location.href = href; }, 2200);
         return;
