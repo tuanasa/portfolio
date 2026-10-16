@@ -94,6 +94,15 @@
     .preview.visible {
       opacity: 1;
     }
+
+    /* phone layout */
+    @media (max-width: 600px) {
+      .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
+      .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
+      .project-list { top: 5rem; left: 1.25rem; right: 1.25rem; }
+      .project-item { font-size: 0.65rem; letter-spacing: 0.08em; overflow-wrap: anywhere; }
+      .preview { display: none; }
+    }
   </style>
 </head>
 <body>

@@ -156,6 +156,16 @@
       filter: blur(12px);
       transition: opacity 0.9s ease, filter 0.9s ease;
     }
+
+    /* phone layout */
+    @media (max-width: 600px) {
+      .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
+      .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
+      body { padding: 1.25rem; padding-bottom: 6rem; }
+      .about-image { position: static; }
+      .about-image img { width: 60vw; margin-left: auto; }
+      .about-text { position: static; transform: none; width: auto; margin-top: 2rem; }
+    }
   </style>
 </head>
 <body>
