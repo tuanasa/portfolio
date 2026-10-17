@@ -13,15 +13,19 @@
       font-family: Helvetica, Arial, sans-serif;
       padding: 0;
       min-height: 100vh;
+    }
+
+    /* fade lives on the content only, so the fixed bottom nav stays pinned to the screen (as on photoarchive) */
+    .page-content {
       opacity: 0;
       transition: opacity 0.6s ease;
     }
 
-    body.visible {
+    .page-content.visible {
       opacity: 1;
     }
 
-    body.visible .image-strip video {
+    .page-content.visible .image-strip video {
       animation: videoblurin 6s ease forwards;
     }
 
@@ -112,11 +116,13 @@
     <a href="contact.html">Contact</a>
   </nav>
 
+  <div class="page-content">
   <section id="work">
     <div class="image-strip">
       <video src="videos/yunggunton kleine datei.mp4" autoplay muted loop playsinline></video>
     </div>
   </section>
+  </div>
 
 
   <div class="video-cursor" id="videoCursor">
@@ -159,8 +165,10 @@
     });
 
     // page transitions
+    const pageContent = document.querySelector('.page-content');
+
     window.addEventListener('load', () => {
-      setTimeout(() => document.body.classList.add('visible'), 50);
+      setTimeout(() => pageContent.classList.add('visible'), 50);
     });
 
     document.addEventListener('click', (e) => {
@@ -169,7 +177,7 @@
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
       e.preventDefault();
-      document.body.classList.remove('visible');
+      pageContent.classList.remove('visible');
       setTimeout(() => { window.location.href = href; }, 600);
     });
 
