@@ -58,6 +58,12 @@
       85%  { opacity: 1; }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
     }
+
+    /* phone layout: lock the page so it can't scroll or bounce */
+    @media (max-width: 600px) {
+      html, body { overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; }
+    }
   </style>
 </head>
 <body>
