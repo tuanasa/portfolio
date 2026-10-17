@@ -95,25 +95,6 @@
       opacity: 1;
     }
 
-    .hint {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      color: #888;
-      text-align: center;
-      pointer-events: none;
-      z-index: 20;
-      transition: opacity 4s ease, filter 4s ease;
-    }
-
-    .hint.gone {
-      opacity: 0;
-      filter: blur(12px);
-    }
-
     /* phone layout */
     @media (max-width: 600px) {
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
@@ -125,7 +106,7 @@
 
     /* touch screens can't hover, so no previews */
     @media (hover: none) {
-      .preview, .hint { display: none; }
+      .preview { display: none; }
     }
   </style>
 </head>
@@ -137,8 +118,6 @@
     <a href="photoarchive.html">Photoarchive</a>
     <a href="contact.html">Contact</a>
   </nav>
-
-  <div class="hint">[hover on project titles to get more info or click to find out even more :)]</div>
 
   <div class="project-list">
     <span class="project-item" data-preview="bruderherz" data-href="bruderherz.html">bruderherz.shortfilm <span class="year">(2026)</span></span>
@@ -172,16 +151,6 @@
       e.preventDefault();
       document.body.classList.remove('visible');
       setTimeout(() => { window.location.href = href; }, 600);
-    });
-
-    // info text blurs out once the mouse moves
-    const hint = document.querySelector('.hint');
-    let hintStart = null;
-    document.addEventListener('mousemove', function hideHint(e) {
-      if (!hintStart) { hintStart = { x: e.clientX, y: e.clientY }; return; }
-      if (Math.hypot(e.clientX - hintStart.x, e.clientY - hintStart.y) < 30) return;
-      hint.classList.add('gone');
-      document.removeEventListener('mousemove', hideHint);
     });
 
     // preview on hover
