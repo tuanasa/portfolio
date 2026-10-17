@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photoarchive — Tuana Sandikci</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #f2f2f2;
+      font-family: Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .page-content {
+      filter: blur(20px);
+      opacity: 0;
+      transition: filter 0.6s ease, opacity 0.6s ease;
+    }
+
+    .page-content.visible {
+      filter: blur(0px);
+      opacity: 1;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1100;
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 2rem 2rem;
+      mix-blend-mode: difference;
+    }
+
+    .bottom-nav a {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .bottom-nav a:hover { opacity: 1; }
+    .bottom-nav a.active { opacity: 1; }
+
+    .archive-grid {
+      column-count: 4;
+      column-gap: 0;
+      padding: 0;
+      padding-bottom: 7rem;
+    }
+
+    .archive-grid figure {
+      position: relative;
+      overflow: hidden;
+      break-inside: avoid;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .archive-grid img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+
+    @media (max-width: 900px) {
+      .archive-grid { column-count: 2; }
+    }
+
+    @media (max-width: 500px) {
+      .archive-grid { column-count: 1; padding: 0; padding-bottom: 7rem; }
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      cursor: none;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img {
+      max-width: 70vw;
+      max-height: 70vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 0.25rem;
+      left: 0.75rem;
+      padding: 1.25rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      z-index: 1001;
+    }
+
+    .lightbox-close:hover {
+      opacity: 1;
+    }
+
+    .lightbox-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1002;
+      transform: translate(-50%, -50%);
+      font-family: 'Bodoni 72 Oldstyle', 'Bodoni MT', Didot, serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      color: #fff;
+      mix-blend-mode: difference;
+      opacity: 0;
+      white-space: nowrap;
+    }
+
+    .lightbox-cursor.visible {
+      opacity: 1;
+    }
+
+    /* phone layout */
+    @media (max-width: 600px) {
+      .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
+      .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="bottom-nav">
+    <a href="index.html">Tuanasandikci</a>
+    <a href="selectedwork.html">Selectedwork</a>
+    <a href="photoarchive.html" class="active">Photoarchive</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="page-content">
+    <div class="archive-grid">
+      <figure><img src="photoarchive/000148460017.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3_gänger.jpg" alt=""></figure>
+      <figure><img src="photoarchive/7_tanten.jpg" alt=""></figure>
+      <figure><img src="photoarchive/8_sax.jpg" alt=""></figure>
+      <figure><img src="photoarchive/9_idylle.jpg" alt=""></figure>
+      <figure><img src="photoarchive/14_opa.jpg" alt=""></figure>
+      <figure><img src="photoarchive/15_legurp.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_1.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_3.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_5.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_7.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_9.jpg" alt=""></figure>
+      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_10.jpg" alt=""></figure>
+      <figure><img src="photoarchive/DSC01355.jpg" alt=""></figure>
+      <figure><img src="photoarchive/IMG_0878.jpg" alt=""></figure>
+      <figure><img src="photoarchive/IMG_8278.jpg" alt=""></figure>
+      <figure><img src="photoarchive/_14_00482.jpg" alt=""></figure>
+      <figure><img src="photoarchive/_18_00478.jpg" alt=""></figure>
+      <figure><img src="photoarchive/_31_00465.jpg" alt=""></figure>
+      <figure><img src="photoarchive/friends and family_tuana sandikci.JPG" alt=""></figure>
+      <figure><img src="photoarchive/000148460005.jpg" alt=""></figure>
+      <figure><img src="photoarchive/1_fahrradmann.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_15.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_17.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_18.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_20.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_30.jpg" alt=""></figure>
+      <figure><img src="photoarchive/3916_32.jpg" alt=""></figure>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-cursor" id="lightboxCursor">NEXT</div>
+  </div>
+
+  <script>
+    // page transitions
+    const pageContent = document.querySelector('.page-content');
+
+    window.addEventListener('load', () => {
+      setTimeout(() => pageContent.classList.add('visible'), 50);
+    });
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
+      e.preventDefault();
+      pageContent.classList.remove('visible');
+      setTimeout(() => { window.location.href = href; }, 600);
+    });
+
+    // lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxCursor = document.getElementById('lightboxCursor');
+    const photos = Array.from(document.querySelectorAll('.archive-grid figure img')).map(img => img.src);
+    let currentIndex = 0;
+
+    function showPhoto(index) {
+      currentIndex = (index + photos.length) % photos.length;
+      lightboxImg.src = photos[currentIndex];
+    }
+
+    document.querySelectorAll('.archive-grid figure').forEach((figure, index) => {
+      figure.addEventListener('click', () => {
+        showPhoto(index);
+        lightbox.classList.add('active');
+      });
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.clientX < window.innerWidth / 2) {
+        showPhoto(currentIndex - 1);
+      } else {
+        showPhoto(currentIndex + 1);
+      }
+    });
+
+    lightboxClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('mousemove', (e) => {
+      lightboxCursor.textContent = e.clientX < window.innerWidth / 2 ? 'PREV ' : 'NEXT ';
+
+      const margin = 12;
+      const halfWidth = lightboxCursor.offsetWidth / 2;
+      const halfHeight = lightboxCursor.offsetHeight / 2;
+      const x = Math.min(Math.max(e.clientX, halfWidth + margin), window.innerWidth - halfWidth - margin);
+      const y = Math.min(Math.max(e.clientY, halfHeight + margin), window.innerHeight - halfHeight - margin);
+
+      lightboxCursor.style.left = x + 'px';
+      lightboxCursor.style.top = y + 'px';
+    });
+
+    lightbox.addEventListener('mouseenter', () => lightboxCursor.classList.add('visible'));
+    lightbox.addEventListener('mouseleave', () => lightboxCursor.classList.remove('visible'));
+
+    lightboxClose.addEventListener('mouseenter', () => lightboxCursor.classList.remove('visible'));
+    lightboxClose.addEventListener('mouseleave', () => lightboxCursor.classList.add('visible'));
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') lightbox.classList.remove('active');
+      if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+      if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
+    });
+  </script>
+
+</body>
+</html>
