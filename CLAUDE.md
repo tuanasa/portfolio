@@ -2,6 +2,8 @@
 
 Static HTML/CSS/JS portfolio, deployed to GitHub Pages (tuanasandikci.com) via `npm run build` (`gh-pages` to the `deploy` branch). The deploy only publishes site files (`*.html`, `CNAME`, root images, `photoarchive/`, `videos/`) plus `.nojekyll` (needed: Jekyll would drop files starting with `_`) — add new top-level folders to the `-s` pattern in package.json. The GitHub key is `~/.ssh/github`. Plain `npm run build` works while it's loaded in ssh-agent; gh-pages clones the repo itself and ignores the repo's `core.sshCommand`, so if the deploy fails with "Permission denied (publickey)" (e.g. after a reboot), run `GIT_SSH_COMMAND="ssh -i ~/.ssh/github -o IdentitiesOnly=yes" npm run build`. Local dev: `npm run dev` (live-server on port 3000).
 
+Analytics: every page loads GoatCounter (`sandikci.goatcounter.com`) with one `<script data-goatcounter=…>` line right after its `<title>`. Copy it into any new page. GoatCounter skips localhost, so local dev doesn't get counted.
+
 ## Git workflow
 
 - After each bigger change (a completed feature/page, a batch of edits, a meaningful fix — not every tiny tweak), commit and push to `main` automatically without waiting to be asked.
