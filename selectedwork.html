@@ -184,21 +184,28 @@
         sessionStorage.setItem('titleLeft', rect.left + 'px');
 
         // clone the title above the overlay so it stays visible
+        const cs = getComputedStyle(item);
         const clone = document.createElement('span');
-        clone.textContent = item.textContent;
+        clone.innerHTML = item.innerHTML;
         clone.style.cssText = `
           position: fixed;
           top: ${rect.top}px;
           left: ${rect.left}px;
-          font-size: 0.85rem;
-          font-weight: 400;
-          letter-spacing: 0.12em;
+          width: ${rect.width}px;
+          padding: ${cs.padding};
+          font-size: ${cs.fontSize};
+          font-weight: ${cs.fontWeight};
+          letter-spacing: ${cs.letterSpacing};
+          line-height: ${cs.lineHeight};
+          overflow-wrap: ${cs.overflowWrap};
           text-transform: uppercase;
           color: #fff;
           mix-blend-mode: difference;
           z-index: 9999;
           pointer-events: none;
         `;
+        const year = item.querySelector('.year');
+        if (year) clone.querySelector('.year').style.display = getComputedStyle(year).display;
         document.body.appendChild(clone);
 
         // overlay fades in over everything else
