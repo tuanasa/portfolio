@@ -7,7 +7,8 @@
 # For each media file that isn't web-sized yet:
 #   1. the original is moved to ../portfolio-originals/<same path>  (outside the repo:
 #      untracked, and never uploaded by the gh-pages deploy)
-#   2. a compressed copy is written in its place
+#   2. a compressed copy is written in its place (photos -> jpg; images with a
+#      transparent background stay png so the transparency is kept)
 #   3. if the extension changed (e.g. .png -> .jpg), src references in *.html are updated
 #
 # Safe to run again any time: files that are already small, or whose original is
@@ -40,6 +41,14 @@ done_count=0; skip_count=0; saved=0
 size_of() { stat -f %z "$1"; }
 human() { awk -v b="$1" 'BEGIN { printf (b >= 1048576 ? "%.1f MB" : "%.0f KB"), (b >= 1048576 ? b/1048576 : b/1024) }'; }
 
+# true if the image has at least one (partly) transparent pixel
+has_transparency() {
+  local min
+  min="$(ffmpeg -nostdin -v error -i "$1" -vf "alphaextract,signalstats,metadata=print:key=lavfi.signalstats.YMIN:file=-" -f null - 2>/dev/null \
+    | awk -F= '/YMIN/ {print $2; exit}')"
+  [ -n "$min" ] && [ "$min" -lt 255 ]
+}
+
 # a path as it may appear in html: plain, or url-encoded (space -> %20, & -> %26)
 encoded() { printf '%s' "$1" | sed -e 's/%/%25/g' -e 's/ /%20/g' -e 's/&/%26/g'; }
 
@@ -71,10 +80,17 @@ process() {
       h="$(sips -g pixelHeight "$src" 2>/dev/null | awk '/pixelHeight/ {print $2}')"
       [ -z "$w" ] && { echo "  ? can't read $rel, skipped"; skip_count=$((skip_count + 1)); return; }
       long=$(( w > h ? w : h ))
-      if { [ "$lower" = jpg ] || [ "$lower" = jpeg ]; } && [ "$(size_of "$src")" -le "$IMG_OK_BYTES" ]; then
-        skip_count=$((skip_count + 1)); return
+      if [ "$lower" = jpg ] || [ "$lower" = jpeg ]; then
+        [ "$(size_of "$src")" -le "$IMG_OK_BYTES" ] && { skip_count=$((skip_count + 1)); return; }
+        out="$rel"
+      elif has_transparency "$src"; then
+        # transparent background: stay png so the transparency survives
+        kind=png
+        [ "$(size_of "$src")" -le "$IMG_OK_BYTES" ] && [ "$long" -le "$IMG_MAX" ] && { skip_count=$((skip_count + 1)); return; }
+        if [ "$lower" = png ]; then out="$rel"; else out="$stem.png"; fi
+      else
+        out="$stem.jpg"
       fi
-      if [ "$lower" = jpg ] || [ "$lower" = jpeg ]; then out="$rel"; else out="$stem.jpg"; fi
       ;;
     mp4|mov|m4v)
       kind=video
@@ -104,7 +120,17 @@ process() {
 
   tmp_out="$TMP/out.${out##*.}"
   rm -f "$tmp_out"
-  if [ "$kind" = image ]; then
+  if [ "$kind" = png ]; then
+    if [ "$long" -gt "$IMG_MAX" ]; then
+      sips -s format png -Z "$IMG_MAX" "$src" --out "$tmp_out" >/dev/null
+    else
+      sips -s format png "$src" --out "$tmp_out" >/dev/null
+    fi
+    # optional: much smaller transparent pngs if pngquant is installed (brew install pngquant)
+    if command -v pngquant >/dev/null; then
+      pngquant --force --skip-if-larger --quality 70-90 --output "$tmp_out" -- "$tmp_out" || true
+    fi
+  elif [ "$kind" = image ]; then
     if [ "$long" -gt "$IMG_MAX" ]; then
       sips -s format jpeg -s formatOptions "$IMG_QUALITY" -Z "$IMG_MAX" "$src" --out "$tmp_out" >/dev/null
     else
