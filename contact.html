@@ -63,6 +63,8 @@
     @media (max-width: 600px) {
       html, body { overflow: hidden; overscroll-behavior: none; }
       body { position: fixed; inset: 0; }
+      /* bigger tap area for back, above the popping words */
+      .back { top: 0.5rem; left: 1rem; padding: 1rem; z-index: 1000; }
     }
   </style>
 </head>
@@ -80,6 +82,8 @@
       { text: 'e-mail',    href: 'mailto:' + email,               target: '_self'  },
     ];
 
+    const isPhone = window.matchMedia('(max-width: 600px)').matches;
+
     function spawn() {
       const item = items[Math.floor(Math.random() * items.length)];
       const el = document.createElement('a');
@@ -90,8 +94,11 @@
 
       const size = Math.random() * 3 + 0.6;
       const dur  = Math.random() * 1.5 + 2;
-      const x    = Math.random() * 80 + 10;
-      const y    = Math.random() * 80 + 10;
+      let x, y;
+      do {
+        x = Math.random() * 80 + 10;
+        y = Math.random() * 80 + 10;
+      } while (isPhone && x < 60 && y < 25); // keep the corner around the back button free
 
       const styles = [
         {},
@@ -119,7 +126,7 @@
       el.addEventListener('animationend', () => el.remove());
 
       const area = window.innerWidth * window.innerHeight;
-      const base = Math.max(60, 1800000 / area);
+      const base = isPhone ? 450 : Math.max(60, 1800000 / area);
       setTimeout(spawn, Math.random() * base + base * 0.4);
     }
 
