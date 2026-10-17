@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
   <title>Photoarchive — Tuana Sandikci</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -113,8 +114,8 @@
 
     .lightbox-close {
       position: fixed;
-      top: 0.25rem;
-      left: 0.75rem;
+      top: calc(0.25rem + env(safe-area-inset-top));
+      left: calc(0.75rem + env(safe-area-inset-left));
       padding: 1.25rem;
       font-size: 1.5rem;
       line-height: 1;
@@ -159,6 +160,11 @@
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
     }
+
+    /* the page reaches under the iPhone status bar (viewport-fit=cover) so the
+       black lightbox covers the whole screen; keep the page itself clear of it */
+    .archive-grid { padding-top: env(safe-area-inset-top); }
+    .bottom-nav { bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 <body>
