@@ -11,7 +11,7 @@ Static HTML/CSS/JS portfolio, deployed to GitHub Pages via `npm run build` (`gh-
 
 ## Media assets
 
-After adding photos or videos, run `npm run compress` (`scripts/compress-media.sh`; `-- --dry-run` to preview). It:
+After adding photos or videos, run `npm run compress` (`scripts/compress-media.sh`; `-- --dry-run` to preview). It also runs automatically before every deploy (`prebuild` hook on `npm run build`), and a failure stops the deploy. It:
 
 - moves each original to `../portfolio-originals/<same path>` — outside the repo, so it's untracked and never uploaded by the `gh-pages` deploy (which publishes untracked files in the project folder too)
 - writes a web-sized copy in its place: photos → JPEG q82, max 2400px long side; videos → the ffmpeg settings below (never upscaled)
