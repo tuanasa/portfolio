@@ -17,6 +17,7 @@ After adding photos or videos, run `npm run compress` (`scripts/compress-media.s
 - writes a web-sized copy in its place: photos → JPEG q82, max 2400px long side; images with actually transparent pixels stay PNG (resized, plus `pngquant` if installed) so the background stays transparent; videos → the ffmpeg settings below (never upscaled)
 - updates `src` references in `*.html` when the extension changes (e.g. `.png` → `.jpg`)
 - skips anything already small (JPGs ≤ 2MB, h264 MP4s ≤ 4 Mbps) or already archived, so it's safe to rerun
+- never touches files in its `KEEP` list (top of the script) — `tuana.png` (about page portrait) must stay the original PNG
 
 Video settings (muted, looping clips — no audio track):
 

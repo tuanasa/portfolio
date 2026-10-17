@@ -25,6 +25,10 @@ DRY=0
 IMG_MAX=2400
 IMG_QUALITY=82
 IMG_OK_BYTES=$((2 * 1024 * 1024))
+# files that must never be touched, relative to the project root
+KEEP=(
+  "tuana.png"   # about page portrait: must stay the original png
+)
 # videos: target width, crf, skip h264 mp4s already under this bitrate
 VID_WIDTH=1280
 VID_CRF=28
@@ -66,6 +70,9 @@ process() {
   local ext stem lower out tmp_out kind
   ext="${rel##*.}"; stem="${rel%.*}"
   lower="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+
+  local k
+  for k in "${KEEP[@]}"; do [ "$rel" = "$k" ] && { skip_count=$((skip_count + 1)); return; }; done
 
   # already handled before? (original with the same name, any extension)
   if ls "$ORIG/$stem".* >/dev/null 2>&1; then
