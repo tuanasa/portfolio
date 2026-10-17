@@ -164,6 +164,11 @@
     /* the page reaches under the iPhone status bar (viewport-fit=cover) so the
        black lightbox covers the whole screen; keep the page itself clear of it */
     .archive-grid { padding-top: env(safe-area-inset-top); }
+
+    /* while a photo is open: no scrolling, and the grid is hidden so nothing
+       shows through behind the iPhone notch */
+    body.lightbox-open { overflow: hidden; }
+    body.lightbox-open .page-content { visibility: hidden; }
     .bottom-nav { bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
@@ -301,6 +306,24 @@
 
     lightboxClose.addEventListener('mouseenter', () => lightboxCursor.classList.remove('visible'));
     lightboxClose.addEventListener('mouseleave', () => lightboxCursor.classList.add('visible'));
+
+    // lock the page behind an open photo (hide the grid once the black fade has covered it)
+    let hideGrid;
+    new MutationObserver(() => {
+      const open = lightbox.classList.contains('active');
+      clearTimeout(hideGrid);
+      if (open) {
+        document.body.style.overflow = 'hidden';
+        hideGrid = setTimeout(() => document.body.classList.add('lightbox-open'), 300);
+      } else {
+        document.body.style.overflow = '';
+        document.body.classList.remove('lightbox-open');
+      }
+    }).observe(lightbox, { attributes: true, attributeFilter: ['class'] });
+
+    document.addEventListener('touchmove', (e) => {
+      if (lightbox.classList.contains('active')) e.preventDefault();
+    }, { passive: false });
 
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('active')) return;
