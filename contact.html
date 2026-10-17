@@ -126,7 +126,7 @@
       el.addEventListener('animationend', () => el.remove());
 
       const area = window.innerWidth * window.innerHeight;
-      const base = isPhone ? 450 : Math.max(60, 1800000 / area);
+      const base = isPhone ? 180 : Math.max(60, 1800000 / area);
       setTimeout(spawn, Math.random() * base + base * 0.4);
     }
 
