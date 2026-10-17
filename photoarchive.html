@@ -154,6 +154,8 @@
 
     /* phone layout */
     @media (max-width: 600px) {
+      [data-src] { opacity: 0; transition: opacity 0.6s ease; }
+      [data-src].loaded { opacity: 1; }
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
     }
@@ -170,34 +172,34 @@
 
   <div class="page-content">
     <div class="archive-grid">
-      <figure><img src="photoarchive/000148460017.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3_gänger.jpg" alt=""></figure>
-      <figure><img src="photoarchive/7_tanten.jpg" alt=""></figure>
-      <figure><img src="photoarchive/8_sax.jpg" alt=""></figure>
-      <figure><img src="photoarchive/9_idylle.jpg" alt=""></figure>
-      <figure><img src="photoarchive/14_opa.jpg" alt=""></figure>
-      <figure><img src="photoarchive/15_legurp.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_1.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_3.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_5.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_7.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_9.jpg" alt=""></figure>
-      <figure><img src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_10.jpg" alt=""></figure>
-      <figure><img src="photoarchive/DSC01355.jpg" alt=""></figure>
-      <figure><img src="photoarchive/IMG_0878.jpg" alt=""></figure>
-      <figure><img src="photoarchive/IMG_8278.jpg" alt=""></figure>
-      <figure><img src="photoarchive/_14_00482.jpg" alt=""></figure>
-      <figure><img src="photoarchive/_18_00478.jpg" alt=""></figure>
-      <figure><img src="photoarchive/_31_00465.jpg" alt=""></figure>
-      <figure><img src="photoarchive/friends and family_tuana sandikci.JPG" alt=""></figure>
-      <figure><img src="photoarchive/000148460005.jpg" alt=""></figure>
-      <figure><img src="photoarchive/1_fahrradmann.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_15.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_17.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_18.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_20.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_30.jpg" alt=""></figure>
-      <figure><img src="photoarchive/3916_32.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/000148460017.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3_gänger.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/7_tanten.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/8_sax.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/9_idylle.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/14_opa.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/15_legurp.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_1.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_3.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_5.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_7.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_9.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/Fotoserie_Tuana_Sandikci_gotsedelchev_10.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/DSC01355.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/IMG_0878.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/IMG_8278.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/_14_00482.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/_18_00478.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/_31_00465.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/friends and family_tuana sandikci.JPG" alt=""></figure>
+      <figure><img data-src="photoarchive/000148460005.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/1_fahrradmann.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_15.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_17.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_18.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_20.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_30.jpg" alt=""></figure>
+      <figure><img data-src="photoarchive/3916_32.jpg" alt=""></figure>
     </div>
   </div>
 
@@ -225,12 +227,29 @@
       setTimeout(() => { window.location.href = href; }, 600);
     });
 
+    // media: all at once on laptops, one after another on phones (each fades in once loaded)
+    (() => {
+      const items = Array.from(document.querySelectorAll('[data-src]'));
+      if (!window.matchMedia('(max-width: 600px)').matches) {
+        items.forEach(el => { el.src = el.dataset.src; el.classList.add('loaded'); });
+        return;
+      }
+      const load = el => new Promise(resolve => {
+        const done = () => { el.classList.add('loaded'); resolve(); };
+        el.addEventListener(el.tagName === 'VIDEO' ? 'loadeddata' : 'load', done, { once: true });
+        el.addEventListener('error', done, { once: true });
+        setTimeout(done, 5000); // never let one slow file block the rest
+        el.src = el.dataset.src;
+      });
+      items.reduce((prev, el) => prev.then(() => load(el)), Promise.resolve());
+    })();
+
     // lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxCursor = document.getElementById('lightboxCursor');
-    const photos = Array.from(document.querySelectorAll('.archive-grid figure img')).map(img => img.src);
+    const photos = Array.from(document.querySelectorAll('.archive-grid figure img')).map(img => img.dataset.src);
     let currentIndex = 0;
 
     function showPhoto(index) {

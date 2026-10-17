@@ -159,6 +159,9 @@
       .hero-credits { top: 1rem; right: 1.25rem; font-size: 0.6rem; }
       .lookbook { grid-template-columns: 1fr; padding: 1rem; padding-top: 6.5rem; padding-bottom: 2rem; }
       .lookbook .wide { grid-column: auto; }
+      .lookbook video { aspect-ratio: 16 / 9; object-fit: cover; }
+      [data-src] { opacity: 0; transition: opacity 0.6s ease; }
+      [data-src].loaded { opacity: 1; }
       .credits { padding: 0 1.25rem 6rem; }
     }
   </style>
@@ -185,25 +188,25 @@
 
   <div class="lookbook">
     <div class="wide">
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_1.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_1.mp4" autoplay muted loop playsinline></video>
     </div>
     <div>
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_2.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_2.mp4" autoplay muted loop playsinline></video>
     </div>
     <div>
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_3.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_3.mp4" autoplay muted loop playsinline></video>
     </div>
     <div>
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_4.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_4.mp4" autoplay muted loop playsinline></video>
     </div>
     <div>
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_5.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_5.mp4" autoplay muted loop playsinline></video>
     </div>
     <div class="wide">
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_6.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_6.mp4" autoplay muted loop playsinline></video>
     </div>
     <div class="wide">
-      <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_7.mp4" autoplay muted loop playsinline></video>
+      <video data-src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_7.mp4" autoplay muted loop playsinline></video>
     </div>
   </div>
 
@@ -217,6 +220,23 @@
   </dl>
 
   <script>
+    // media: all at once on laptops, one after another on phones (each fades in once loaded)
+    (() => {
+      const items = Array.from(document.querySelectorAll('[data-src]'));
+      if (!window.matchMedia('(max-width: 600px)').matches) {
+        items.forEach(el => { el.src = el.dataset.src; el.classList.add('loaded'); });
+        return;
+      }
+      const load = el => new Promise(resolve => {
+        const done = () => { el.classList.add('loaded'); resolve(); };
+        el.addEventListener(el.tagName === 'VIDEO' ? 'loadeddata' : 'load', done, { once: true });
+        el.addEventListener('error', done, { once: true });
+        setTimeout(done, 5000); // never let one slow file block the rest
+        el.src = el.dataset.src;
+      });
+      items.reduce((prev, el) => prev.then(() => load(el)), Promise.resolve());
+    })();
+
     const overlay = document.getElementById('page-overlay');
 
     window.addEventListener('load', () => {
