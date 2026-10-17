@@ -9,12 +9,19 @@ Static HTML/CSS/JS portfolio, deployed to GitHub Pages via `npm run build` (`gh-
 - GitHub hard-rejects any single file over 100MB, so oversized files must be compressed or excluded, never force-pushed through.
 - Never run `npm run build` (the `gh-pages` deploy) on your own. Committing/pushing to `main` is automatic per above, but deploying to the live site only happens when the user explicitly asks for it.
 
-## Video assets
+## Media assets
 
-Background/lookbook `<video>` clips are muted and looping — export them compressed, not camera-native:
+After adding photos or videos, run `npm run compress` (`scripts/compress-media.sh`; `-- --dry-run` to preview). It:
+
+- moves each original to `../portfolio-originals/<same path>` — outside the repo, so it's untracked and never uploaded by the `gh-pages` deploy (which publishes untracked files in the project folder too)
+- writes a web-sized copy in its place: photos → JPEG q82, max 2400px long side; videos → the ffmpeg settings below (never upscaled)
+- updates `src` references in `*.html` when the extension changes (e.g. `.png` → `.jpg`)
+- skips anything already small (JPGs ≤ 2MB, h264 MP4s ≤ 4 Mbps) or already archived, so it's safe to rerun
+
+Video settings (muted, looping clips — no audio track):
 
 ```bash
 ffmpeg -i input.mov -vf "scale=1280:-2" -c:v libx264 -crf 28 -preset slow -an -movflags +faststart -pix_fmt yuv420p output.mp4
 ```
 
-Keep only the compressed output in `videos/`; raw/original exports stay outside the repo (Downloads, external drive).
+Keep only compressed output in the repo; originals live in `../portfolio-originals/` (or Downloads, external drive).
