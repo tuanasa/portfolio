@@ -169,10 +169,20 @@
       cursor.style.display = 'none';
     });
 
-    video.addEventListener('click', () => {
-      video.paused ? video.play() : video.pause();
-      updateIcon();
+    // decide play/pause from the state at the moment of pressing: if autoplay was blocked
+    // and the browser's own play button starts the video, the first click must not pause it
+    let pausedAtPress = video.paused;
+    video.addEventListener('pointerdown', () => { pausedAtPress = video.paused; });
+
+    video.addEventListener('click', (e) => {
+      const wasPaused = e.detail === 0 ? video.paused : pausedAtPress; // detail 0: keyboard
+      if (wasPaused) video.play().catch(() => {});
+      else video.pause();
     });
+
+    // keep the cursor icon in sync however the video gets started or stopped
+    video.addEventListener('play', updateIcon);
+    video.addEventListener('pause', updateIcon);
 
     // page transitions
     const pageContent = document.querySelector('.page-content');
