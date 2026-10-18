@@ -150,7 +150,25 @@
       line-height: 1.5rem;
       opacity: 0.85;
     }
+    /* home button, same as back on the contact page */
+    .back {
+      position: fixed;
+      top: 1.5rem;
+      left: 2rem;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f2f2f2;
+      text-decoration: none;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+    .back:hover { opacity: 1; }
+
     body.leaving .bottom-nav,
+    body.leaving .back,
     body.leaving .about-text p {
       opacity: 0;
       filter: blur(12px);
@@ -161,6 +179,7 @@
     @media (max-width: 600px) {
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
+      .back { top: 0.5rem; left: 1rem; padding: 1rem; z-index: 1000; }
       /* no scrolling: everything fits between the top and the bottom menu */
       html, body { overflow: hidden; overscroll-behavior: none; }
       body { position: fixed; inset: 0; padding: 1.25rem; padding-bottom: 4.5rem; }
@@ -179,6 +198,8 @@
     <a href="photoarchive.html">Photoarchive</a>
     <a href="contact.html">Contact</a>
   </nav>
+
+  <a class="back" href="index.html">Home</a>
 
   <div class="page-content">
   <section class="about">
