@@ -84,6 +84,10 @@
 
     @media (max-width: 600px) {
       .image-strip video { width: 80vw; }
+      /* no scrolling; video centered in the visible screen */
+      html, body { overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; }
+      .image-strip { min-height: 0; height: 100vh; height: 100dvh; padding-bottom: 0; }
     }
 
     .image-strip video {
