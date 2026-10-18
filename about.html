@@ -72,19 +72,6 @@
       margin: 0 auto;
     }
 
-    .about-image {
-      position: fixed;
-      bottom: 8rem;
-      right: 2rem;
-      z-index: 1;
-    }
-
-    .about-image img {
-      width: 340px;
-      display: block;
-      filter: grayscale(100%);
-    }
-
     .about-text {
       position: fixed;
       right: calc(2rem + 340px + 4rem);
@@ -164,7 +151,6 @@
       opacity: 0.85;
     }
     body.leaving .bottom-nav,
-    body.leaving .about-image,
     body.leaving .about-text p {
       opacity: 0;
       filter: blur(12px);
@@ -180,8 +166,6 @@
       body { position: fixed; inset: 0; padding: 1.25rem; padding-bottom: 4.5rem; }
       .page-content { position: static; height: 100%; }
       .about { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
-      .about-image { position: static; order: 2; margin-top: 1.5rem; }
-      .about-image img { width: 35vw; width: min(35vw, 18vh); width: min(35vw, 18dvh); margin-left: auto; }
       .about-text { position: static; transform: none; width: auto; }
       .contact-me { margin-top: 1.5rem; }
     }
@@ -198,9 +182,6 @@
 
   <div class="page-content">
   <section class="about">
-    <div class="about-image">
-      <img src="tuana.png" alt="Tuana Sandikci">
-    </div>
     <div class="about-text">
       <p>Hi! I'm Tuana :)</p>
       <p>I'm a cinematographer based in Berlin, working mainly on short films and fashion/music-related videos. I love shaping a frame and figuring out how a story should feel.</p>
