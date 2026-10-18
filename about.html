@@ -72,19 +72,6 @@
       margin: 0 auto;
     }
 
-    .about-image {
-      position: fixed;
-      bottom: 8rem;
-      right: 2rem;
-      z-index: 1;
-    }
-
-    .about-image img {
-      width: 340px;
-      display: block;
-      filter: grayscale(100%);
-    }
-
     .about-text {
       position: fixed;
       right: calc(2rem + 340px + 4rem);
@@ -164,7 +151,6 @@
       opacity: 0.85;
     }
     body.leaving .bottom-nav,
-    body.leaving .about-image,
     body.leaving .about-text p {
       opacity: 0;
       filter: blur(12px);
@@ -175,11 +161,11 @@
     @media (max-width: 600px) {
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
-      body { padding: 1.25rem; padding-bottom: 6rem; }
-      .page-content { position: static; }
-      .about { display: flex; flex-direction: column; justify-content: flex-end; min-height: calc(100vh - 7.25rem); min-height: calc(100svh - 7.25rem); }
-      .about-image { position: static; order: 2; margin-top: 2.5rem; }
-      .about-image img { width: 35vw; margin-left: auto; }
+      /* no scrolling: everything fits between the top and the bottom menu */
+      html, body { overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; padding: 1.25rem; padding-bottom: 4.5rem; }
+      .page-content { position: static; height: 100%; }
+      .about { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
       .about-text { position: static; transform: none; width: auto; }
       .contact-me { margin-top: 1.5rem; }
     }
@@ -196,12 +182,9 @@
 
   <div class="page-content">
   <section class="about">
-    <div class="about-image">
-      <img src="tuana.png" alt="Tuana Sandikci">
-    </div>
     <div class="about-text">
       <p>Hi! I'm Tuana :)</p>
-      <p>I'm a cinematographer based in Berlin, working mainly on short films and fashion and music-related videos. I love shaping a frame and figuring out how a story should feel, not just what it should say.</p>
+      <p>I'm a cinematographer based in Berlin, working mainly on short films and fashion/music-related videos. I love shaping a frame and figuring out how a story should feel.</p>
       <p>What matters to me just as much as the visual side is who I make images for and about. As a woman working behind the camera, I care deeply about pushing the female gaze forward.</p>
       <p>So if you have a project in mind, let's chat :)</p>
       <a class="contact-me" href="contact.html">Contact me</a>
@@ -210,6 +193,22 @@
   </div>
 
   <script>
+    // phones: shrink the text step by step until the whole page fits the screen (it can't scroll)
+    function fitAbout() {
+      if (!window.matchMedia('(max-width: 600px)').matches) return;
+      const about = document.querySelector('.about');
+      const text = document.querySelector('.about-text');
+      const paragraphs = text.querySelectorAll('p');
+      paragraphs.forEach(p => { p.style.fontSize = ''; p.style.lineHeight = ''; });
+      let size = parseFloat(getComputedStyle(paragraphs[0]).fontSize);
+      while (text.getBoundingClientRect().top < about.getBoundingClientRect().top && size > 9) {
+        size -= 0.5;
+        paragraphs.forEach(p => { p.style.fontSize = size + 'px'; p.style.lineHeight = (size * 1.8) + 'px'; });
+      }
+    }
+    document.fonts.ready.then(fitAbout);
+    window.addEventListener('resize', fitAbout);
+
     // page transitions
     const pageContent = document.querySelector('.page-content');
 
