@@ -29,7 +29,7 @@ IMG_OK_BYTES=$((2 * 1024 * 1024))
 KEEP=()
 # smaller max size for images that are only ever shown small ("path:longest side px")
 IMG_MAX_FOR=(
-  "tuana.png:1200"   # about page portrait, displayed at 340px wide (3x for retina)
+  "tuana.png:1200"   # portrait, kept in the repo but no longer on the about page
 )
 # videos: target width, crf, skip h264 mp4s already under this bitrate
 VID_WIDTH=1280
