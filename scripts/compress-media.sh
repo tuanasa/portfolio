@@ -75,7 +75,7 @@ process() {
 
   local k max="$IMG_MAX"
   for k in ${KEEP[@]+"${KEEP[@]}"}; do [ "$rel" = "$k" ] && { skip_count=$((skip_count + 1)); return; }; done
-  for k in "${IMG_MAX_FOR[@]}"; do [ "$rel" = "${k%:*}" ] && max="${k##*:}"; done
+  for k in ${IMG_MAX_FOR[@]+"${IMG_MAX_FOR[@]}"}; do [ "$rel" = "${k%:*}" ] && max="${k##*:}"; done
 
   # already handled before? (original with the same name, any extension)
   if ls "$ORIG/$stem".* >/dev/null 2>&1; then

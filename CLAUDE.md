@@ -19,7 +19,7 @@ After adding photos or videos, run `npm run compress` (`scripts/compress-media.s
 - writes a web-sized copy in its place: photos → JPEG q82, max 2400px long side; images with actually transparent pixels stay PNG (resized, plus `pngquant` if installed) so the background stays transparent; videos → the ffmpeg settings below (never upscaled)
 - updates `src` references in `*.html` when the extension changes (e.g. `.png` → `.jpg`)
 - skips anything already small (JPGs ≤ 2MB, h264 MP4s ≤ 4 Mbps) or already archived, so it's safe to rerun
-- never touches files in its `KEEP` list (top of the script); `IMG_MAX_FOR` gives small-display images a lower max size — `tuana.png` (portrait, kept compressed in the repo but removed from the about page on purpose — do not re-add it) is capped at 1200px and stays a transparent PNG
+- never touches files in its `KEEP` list (top of the script); `IMG_MAX_FOR` gives small-display images a lower max size — `tuana.png` (portrait, kept compressed in the repo but removed from the about page on purpose and excluded from the deploy via `!(tuana).png` in the package.json pattern — do not re-add it) is capped at 1200px and stays a transparent PNG
 - `pngquant` (`brew install pngquant`) is optional but shrinks transparent PNGs a lot more — without it `tuana.png` would be ~1.1MB instead of ~330KB
 - when running it from a git worktree, set `ORIGINALS_DIR=/Users/lasse/projects/portfolio-originals` — the default `../portfolio-originals` is relative to the checkout and would land inside `.claude/worktrees/`
 
