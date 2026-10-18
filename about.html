@@ -175,11 +175,13 @@
     @media (max-width: 600px) {
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
-      body { padding: 1.25rem; padding-bottom: 6rem; }
-      .page-content { position: static; }
-      .about { display: flex; flex-direction: column; justify-content: flex-end; min-height: calc(100vh - 7.25rem); min-height: calc(100svh - 7.25rem); }
-      .about-image { position: static; order: 2; margin-top: 2.5rem; }
-      .about-image img { width: 35vw; margin-left: auto; }
+      /* no scrolling: everything fits between the top and the bottom menu */
+      html, body { overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; padding: 1.25rem; padding-bottom: 4.5rem; }
+      .page-content { position: static; height: 100%; }
+      .about { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+      .about-image { position: static; order: 2; margin-top: 1.5rem; }
+      .about-image img { width: 35vw; width: min(35vw, 18vh); width: min(35vw, 18dvh); margin-left: auto; }
       .about-text { position: static; transform: none; width: auto; }
       .contact-me { margin-top: 1.5rem; }
     }
@@ -210,6 +212,22 @@
   </div>
 
   <script>
+    // phones: shrink the text step by step until the whole page fits the screen (it can't scroll)
+    function fitAbout() {
+      if (!window.matchMedia('(max-width: 600px)').matches) return;
+      const about = document.querySelector('.about');
+      const text = document.querySelector('.about-text');
+      const paragraphs = text.querySelectorAll('p');
+      paragraphs.forEach(p => { p.style.fontSize = ''; p.style.lineHeight = ''; });
+      let size = parseFloat(getComputedStyle(paragraphs[0]).fontSize);
+      while (text.getBoundingClientRect().top < about.getBoundingClientRect().top && size > 9) {
+        size -= 0.5;
+        paragraphs.forEach(p => { p.style.fontSize = size + 'px'; p.style.lineHeight = (size * 1.8) + 'px'; });
+      }
+    }
+    document.fonts.ready.then(fitAbout);
+    window.addEventListener('resize', fitAbout);
+
     // page transitions
     const pageContent = document.querySelector('.page-content');
 
