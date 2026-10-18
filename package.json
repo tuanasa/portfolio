@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx live-server --port=3000 --open=index.html",
     "prebuild": "npm run compress",
-    "build": "npx gh-pages -d . -b deploy --nojekyll -s '{*.html,CNAME,*.jpg,*.jpeg,*.png,*.gif,photoarchive/**,videos/**}'",
+    "build": "npx gh-pages -d . -b deploy --nojekyll -s '{*.html,CNAME,robots.txt,*.jpg,*.jpeg,*.png,*.gif,photoarchive/**,videos/**}'",
     "compress": "bash scripts/compress-media.sh"
   }
 }
