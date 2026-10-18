@@ -18,12 +18,18 @@
       color: #f2f2f2;
       font-family: Helvetica, Arial, sans-serif;
       min-height: 100vh;
+    }
+
+    /* fade lives on the content only, so the fixed bottom nav stays pinned to the screen (as on photoarchive) */
+    .page-content {
+      position: fixed;
+      inset: 0;
       filter: blur(20px);
       opacity: 0;
       transition: filter 0.6s ease, opacity 0.6s ease;
     }
 
-    body.visible {
+    .page-content.visible {
       filter: blur(0px);
       opacity: 1;
     }
@@ -105,6 +111,8 @@
     @media (max-width: 600px) {
       .bottom-nav { gap: 0.5rem; padding: 1.25rem 0.75rem; flex-wrap: wrap; }
       .bottom-nav a { font-size: 0.6rem; letter-spacing: 0.06em; }
+      html, body { overflow: hidden; overscroll-behavior: none; }
+      body { position: fixed; inset: 0; }
       .project-list { top: 5rem; left: 1.25rem; right: 1.25rem; }
       .project-item .year { display: block; }
       .project-item { font-size: 0.85rem; letter-spacing: 0.06em; overflow-wrap: anywhere; padding: 0.4rem 0; }
@@ -125,6 +133,7 @@
     <a href="contact.html">Contact</a>
   </nav>
 
+  <div class="page-content">
   <div class="project-list">
     <span class="project-item" data-preview="bruderherz" data-href="bruderherz.html">bruderherz.shortfilm <span class="year">(2026)</span></span>
     <span class="project-item" data-preview="ignorancefreedom" data-href="ignorancefreedom.html">ignorance&amp;freedom.<wbr>dancemusicvideo <span class="year">(2026)</span></span>
@@ -142,11 +151,13 @@
   <div class="preview" id="preview-schatzsucher">
     <video src="videos/DIE%20SCHATZSUCHER/DieSchatzsucher_PORTFOLIO_3.mp4" muted loop playsinline style="width:320px; filter:grayscale(100%);"></video>
   </div>
+  </div>
 
   <script>
     // page transitions
+    const pageContent = document.querySelector('.page-content');
     window.addEventListener('load', () => {
-      setTimeout(() => document.body.classList.add('visible'), 50);
+      setTimeout(() => pageContent.classList.add('visible'), 50);
     });
 
     document.addEventListener('click', (e) => {
@@ -155,7 +166,7 @@
       const href = link.getAttribute('href');
       if (!href || href === '#' || href.startsWith('mailto:') || link.target === '_blank') return;
       e.preventDefault();
-      document.body.classList.remove('visible');
+      pageContent.classList.remove('visible');
       setTimeout(() => { window.location.href = href; }, 600);
     });
 
