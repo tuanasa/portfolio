@@ -1,0 +1,16 @@
+# Pages may be indexed; photos and videos may not.
+User-agent: *
+# the favicon stays crawlable so search results can show it
+Allow: /favicon/
+Disallow: /photoarchive/
+Disallow: /videos/
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.JPG$
+Disallow: /*.png$
+Disallow: /*.gif$
+Disallow: /*.webp$
+Disallow: /*.tif$
+Disallow: /*.tiff$
+Disallow: /*.mp4$
+Disallow: /*.mov$
