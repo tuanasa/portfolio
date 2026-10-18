@@ -26,8 +26,10 @@ IMG_MAX=2400
 IMG_QUALITY=82
 IMG_OK_BYTES=$((2 * 1024 * 1024))
 # files that must never be touched, relative to the project root
-KEEP=(
-  "tuana.png"   # about page portrait: must stay the original png
+KEEP=()
+# smaller max size for images that are only ever shown small ("path:longest side px")
+IMG_MAX_FOR=(
+  "tuana.png:1200"   # about page portrait, displayed at 340px wide (3x for retina)
 )
 # videos: target width, crf, skip h264 mp4s already under this bitrate
 VID_WIDTH=1280
@@ -71,8 +73,9 @@ process() {
   ext="${rel##*.}"; stem="${rel%.*}"
   lower="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 
-  local k
-  for k in "${KEEP[@]}"; do [ "$rel" = "$k" ] && { skip_count=$((skip_count + 1)); return; }; done
+  local k max="$IMG_MAX"
+  for k in ${KEEP[@]+"${KEEP[@]}"}; do [ "$rel" = "$k" ] && { skip_count=$((skip_count + 1)); return; }; done
+  for k in "${IMG_MAX_FOR[@]}"; do [ "$rel" = "${k%:*}" ] && max="${k##*:}"; done
 
   # already handled before? (original with the same name, any extension)
   if ls "$ORIG/$stem".* >/dev/null 2>&1; then
@@ -93,7 +96,7 @@ process() {
       elif has_transparency "$src"; then
         # transparent background: stay png so the transparency survives
         kind=png
-        [ "$(size_of "$src")" -le "$IMG_OK_BYTES" ] && [ "$long" -le "$IMG_MAX" ] && { skip_count=$((skip_count + 1)); return; }
+        [ "$(size_of "$src")" -le "$IMG_OK_BYTES" ] && [ "$long" -le "$max" ] && { skip_count=$((skip_count + 1)); return; }
         if [ "$lower" = png ]; then out="$rel"; else out="$stem.png"; fi
       else
         out="$stem.jpg"
@@ -128,8 +131,8 @@ process() {
   tmp_out="$TMP/out.${out##*.}"
   rm -f "$tmp_out"
   if [ "$kind" = png ]; then
-    if [ "$long" -gt "$IMG_MAX" ]; then
-      sips -s format png -Z "$IMG_MAX" "$src" --out "$tmp_out" >/dev/null
+    if [ "$long" -gt "$max" ]; then
+      sips -s format png -Z "$max" "$src" --out "$tmp_out" >/dev/null
     else
       sips -s format png "$src" --out "$tmp_out" >/dev/null
     fi
@@ -138,8 +141,8 @@ process() {
       pngquant --force --skip-if-larger --quality 70-90 --output "$tmp_out" -- "$tmp_out" || true
     fi
   elif [ "$kind" = image ]; then
-    if [ "$long" -gt "$IMG_MAX" ]; then
-      sips -s format jpeg -s formatOptions "$IMG_QUALITY" -Z "$IMG_MAX" "$src" --out "$tmp_out" >/dev/null
+    if [ "$long" -gt "$max" ]; then
+      sips -s format jpeg -s formatOptions "$IMG_QUALITY" -Z "$max" "$src" --out "$tmp_out" >/dev/null
     else
       sips -s format jpeg -s formatOptions "$IMG_QUALITY" "$src" --out "$tmp_out" >/dev/null
     fi
