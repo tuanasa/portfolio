@@ -173,7 +173,7 @@ echo "Originals folder: $ORIG"
 
 while IFS= read -r -d '' file; do
   process "${file#"$ROOT"/}"
-done < <(find "$ROOT" \( -name .git -o -name node_modules -o -name scripts -o -name .claude \) -prune -o \
+done < <(find "$ROOT" \( -name .git -o -name node_modules -o -name scripts -o -name .claude -o -name favicon \) -prune -o \
            -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.tif' -o -iname '*.tiff' \
            -o -iname '*.heic' -o -iname '*.webp' -o -iname '*.mp4' -o -iname '*.mov' -o -iname '*.m4v' \) -print0 | sort -z)
 
