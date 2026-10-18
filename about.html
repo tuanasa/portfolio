@@ -185,6 +185,8 @@
       body { position: fixed; inset: 0; padding: 1.25rem; padding-top: 3.5rem; padding-bottom: 4.5rem; }
       .page-content { position: static; height: 100%; }
       .about { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+      /* keep the text where it was when the photo still sat below it */
+      .about::after { content: ''; flex-shrink: 0; margin-top: 1.5rem; height: min(35vw, 18vh); height: min(35vw, 18dvh); }
       .about-text { position: static; transform: none; width: auto; }
       .contact-me { margin-top: 1.5rem; }
     }
